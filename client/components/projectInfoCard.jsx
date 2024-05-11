@@ -1,6 +1,8 @@
+"use client"
+
 import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { ArrowRightIcon } from '@/components/icons/arrow';
-import { CalendarClock } from "lucide-react";
+import { useQuery } from 'react-query';
 
 const Projects = [
     {
@@ -61,7 +63,21 @@ const Projects = [
     },
 ]
 
+
+
 export default function Explore() {
+
+    const fetchProjects = async () => {
+        const response = await fetch('/api/getProjects');
+        if (!response.ok) {
+            throw new Error('Failed to fetch projects');
+        }
+        return response.json();
+    };
+
+    const { data: projects, isLoading, isError } = useQuery('projects', fetchProjects);
+
+    console.log(projects?.projects)
 
     return (
         <>
@@ -70,20 +86,14 @@ export default function Explore() {
 
                     <h2 className="mt-12 mb-4 px-4 text-4xl font-bold text-hackclub-primary">Explore Projects</h2>
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mt-6'>
-                        {Projects.map((hackathon, index) => (
+                        {projects?.projects.map((project, index) => (
                             <Card className="relative bg-[#C8F2BB]">
-
-                                <div className="absolute top-4 left-4 bg-[#0D3D00] text-gray-50 px-3 py-1 rounded-t-md rounded-bl-md text-xs font-medium">
-                                    {hackathon.mode}
-                                </div>
-
-
                                 <CardHeader>
                                     <img
                                         alt="Hackathon Image"
                                         className="rounded-t-lg object-cover w-full"
                                         height="200"
-                                        src={hackathon.image}
+                                        src={project.Project_Image ? project.Project_Image : "https://images.unsplash.com/photo-1664990035720-faac522df41f"}
                                         style={{
                                             aspectRatio: "300/200",
                                             objectFit: "cover",
@@ -92,10 +102,17 @@ export default function Explore() {
                                     />
                                 </CardHeader>
                                 <CardContent className="p-4 md:p-6 pt-0 md:pt-0">
-                                    <h3 className="text-lg md:text-xl font-semibold">{hackathon.title}</h3>
+                                    <h3 className="text-lg md:text-xl font-semibold">{project.Project_Name}</h3>
                                     <p className="text-sm md:text-base text-gray-700 mt-2 line-clamp-2">
-                                        {hackathon.description}
+                                        {project.Project_Description}
                                     </p>
+                                    <div className="flex flex-wrap gap-3 mt-3">
+                                        {project.Project_Category.map((category) => (
+                                            <div className="bg-[#0D3D00] text-gray-50 px-3 py-1 rounded-t-md rounded-bl-md text-xs font-medium">
+                                                {category}
+                                            </div>
+                                        ))}
+                                    </div>
                                     {/* <div className="flex items-center gap-2 mt-4">
                                         <CalendarClock size={22} className="inline" /><span className="text-sm md:text-base font-medium">{hackathon.timeline}</span>
                                     </div>
@@ -105,7 +122,7 @@ export default function Explore() {
                                     </div> */}
                                     <a
                                         className="inline-flex items-center gap-2 text-sm md:text-base font-medium mt-4 text-hackclub-primary-dark hover:underline"
-                                        href={hackathon.link}
+                                        href={`/project/${project.ProjectID}`}
                                         _target="blank"
                                         rel='noreferrer noopener'
                                     >
