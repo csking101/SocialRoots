@@ -56,7 +56,7 @@ def background_match(investor_background, resources_required):
     return background_match_prompt(investor_background, resources_required)
 
 # Function to extract features for an edge
-def extract_features(investor_attrs, project_attrs):
+def extract_features_ipm(investor_attrs, project_attrs):
     investment_scale = investor_attrs['investment_scale']
     current_status = project_attrs['current_status']
     area_of_interest = investor_attrs['area_of_interest']
@@ -118,7 +118,7 @@ def extract_features(investor_attrs, project_attrs):
     return features
 
 # Function to label edges
-def label_edge(G, investor_id, project_id):
+def label_edge_ipm(G, investor_id, project_id):
     return 1 if G.has_edge(investor_id, project_id) else 0
 
 def graph_load(view=False):
@@ -180,9 +180,9 @@ def graph_load(view=False):
     return G
 
 
-def graph_train(G):
+def graph_train_ipm(G):
     """
-    This function trains the graph using the data. It generates the dataset and trains the model.
+    This function trains the graph using the data. It generates the dataset and trains the model. Its objective is to map between the investor and project nodes.
     """
     
     # Train logistic regression model
@@ -195,26 +195,26 @@ def graph_train(G):
         print(investor_id, project_id)
         investor_attrs = G.nodes[investor_id]
         project_attrs = G.nodes[project_id]
-        features = extract_features(investor_attrs, project_attrs)
-        label = label_edge(G, investor_id, project_id)
+        features = extract_features_ipm(investor_attrs, project_attrs)
+        label = label_edge_ipm(G, investor_id, project_id)
         print(label)
         X.append(features)
         y.append(label)
 
-        with open("X.npy","wb") as f:
+        with open("X_ipm.npy","wb") as f:
             X_arr = np.array(X)
             np.save(f,X_arr)
 
-        with open("y.npy","wb") as f:
+        with open("y_ipm.npy","wb") as f:
             y_arr = np.array(y)
             np.save(f,y_arr)
 
     X = np.array(X)
     y = np.array(y)
     
-    with open("X.npy","wb") as f:
+    with open("X_ipm.npy","wb") as f:
         np.save(f,X)
-    with open("y.npy","wb") as f:
+    with open("y_ipm.npy","wb") as f:
         np.save(f,y)
 
     # Split data into training and testing sets
@@ -231,7 +231,81 @@ def graph_train(G):
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
     
-def model_train():
+def extract_features_ppm(project_attrs1, project_attrs2):
+    """
+    Extract features for a pair of projects.
+    """
+    # Extract relevant attributes
+    current_status1 = project_attrs1['current_status']
+    current_status2 = project_attrs2['current_status']
+    resources_required1 = project_attrs1['resources_required']
+    resources_required2 = project_attrs2['resources_required']
+    area_of_interest1 = project_attrs1['area_of_interest']
+    area_of_interest2 = project_attrs2['area_of_interest']
+    delivery_time1 = project_attrs1['delivery_time']
+    delivery_time2 = project_attrs2['delivery_time']
+    region1 = project_attrs1['region']
+    region2 = project_attrs2['region']
+    
+    # Calculate match factors
+    match_factors = []
+    match_factors.append(investment_scale_match(current_status1, current_status2))
+    match_factors.append(area_of_interest_match(area_of_interest1, area_of_interest2))
+    match_factors.append(area_of_expertise_match(area_of_interest1, resources_required2))  # Adjust as needed
+    match_factors.append(risk_appetite_match(resources_required1, resources_required2))  # Adjust as needed
+    match_factors.append(delivery_time_match(delivery_time1, delivery_time2))
+    match_factors.append(region_match(region1, region2))
+    match_factors.append(background_match(resources_required2, resources_required2))  # Adjust as needed
+    
+    return match_factors
+
+def label_edge_ppm(G, project_id1, project_id2):
+    """
+    Label the edge between two projects.
+    """
+    return 1 if G.has_edge(project_id1, project_id2) else 0
+
+    
+def graph_train_ppm(G):
+    """
+    This function trains the graph using the data. It generates the dataset and trains the model. Its objective is to map between the project nodes.
+    """
+    
+    # Train logistic regression model
+    X = []
+    y = []
+
+    for (project_id1, project_id2) in [(f"Project {i}", f"Project {j}") for i in range(1, 21) for j in range(1, 21) if i != j]:
+        project_attrs1 = G.nodes[project_id1]
+        project_attrs2 = G.nodes[project_id2]
+        features = extract_features_ppm(project_attrs1, project_attrs2)  # Implement this function
+        label = label_edge_ppm(G, project_id1, project_id2)  # Implement this function
+        X.append(features)
+        y.append(label)
+
+    X = np.array(X)
+    y = np.array(y)
+    
+    with open("X_ppm.npy","wb") as f:
+        np.save(f,X)
+    with open("y_ppm.npy","wb") as f:
+        np.save(f,y)
+
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train logistic regression model
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+
+    # Predict on test set
+    y_pred = model.predict(X_test)
+
+    # Evaluate model
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
+    
+def model_train_ipm():
     """
     This function uses the pre-generated dataset to train the logistic regression model.
     """
@@ -244,7 +318,7 @@ def model_train():
     model = LogisticRegression()
     model.fit(X_train, y_train)
     
-    with open('model.pkl', 'wb') as f:
+    with open('model_ipm.pkl', 'wb') as f:
         pickle.dump(model, f)
 
     # Predict on test set
@@ -255,4 +329,5 @@ def model_train():
     print("Accuracy:", accuracy)
     
 if __name__ == "__main__":
-    model_train()
+    # model_train_ipm()
+    pass
