@@ -14,6 +14,7 @@ The mapping for similarity is as follows(Investor to Project):
 6) Region -> Region (cardinal index)
 7) Background/Experience -> Resources Required (LLM for applicability)
 """
+
 from .prompting import area_of_expertise_match_prompt, risk_appetite_match_prompt, background_match_prompt
 
 def investment_scale_match(investment_scale, current_status):
@@ -45,8 +46,9 @@ def region_match(investor_region, project_region):
 def background_match(investor_background, resources_required):
     return background_match_prompt(investor_background, resources_required)
 
-def graph_train(graph, num_epochs):
+def graph_train(graph, investors_dataframe, projects_dataframe):
     """
     This function trains the graph using the data.
     """
-    pass
+    
+    

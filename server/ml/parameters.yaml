@@ -1,0 +1,43 @@
+common_attributes:
+- area_of_interest: #int:index
+    - Environmental conservation
+    - Community development
+    - Arts and culture
+    - Technology and innovation
+    - Women and children's welfare
+    - Agricultural development
+    - Public health initiatives
+    - Infrastructure and urban planning
+    - Financial inclusion
+    - Disaster relief and resilience
+- delivery_time #int:time in months
+- region: #int:index
+    - Asia
+    - Africa
+    - Europe
+    - North America
+    - South America
+    - Australia
+    - Antarctica
+
+project_attributes:
+- current_status #int:Money in rupees
+- resources_required #str:Description
+
+investor_attributes:
+- investment_scale #int:Money in rupees
+- area_of_expertise: #int:index
+    - Technology and innovation
+    - Business development and scaling
+    - Financial management and fundraising
+    - Legal and regulatory compliance
+    - Marketing and branding
+    - Human resources and talent management
+    - Product development and design
+    - Market research and analysis
+    - Supply chain and logistics
+    - Customer service and support
+    - Data analytics and business intelligence
+- risk_appetite #int:Risk level (0-10) 
+- background #str:Description
+
