@@ -12,8 +12,15 @@ The mapping for similarity is as follows(Investor to Project):
 4) Risk Appetites -> Use Description? (LLM)
 5) Delivery Time -> Delivery Time (number in months)
 6) Region -> Region (cardinal index)
-7) Background -> Resources Required (LLM for applicability)
+7) Background/Experience -> Resources Required (LLM for applicability)
 """
+
+def investment_scale_match(investment_scale, current_status):
+    diff = abs(investment_scale - current_status)
+    
+    match_factor = 1/(1 + diff)
+    
+    return match_factor
 
 def graph_train(graph, num_epochs):
     """
