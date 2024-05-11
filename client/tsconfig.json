@@ -23,6 +23,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/icons/arrow.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "utils/supabase/functions/fetchProjects.js", "app/test/page.jsx", "utils/supabase/client.js", "app/api/getProjects/route.js", "components/icons/arrow.jsx"],
   "exclude": ["node_modules"]
 }
