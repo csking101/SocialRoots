@@ -360,10 +360,12 @@ def graph_train_iim(G):
     y = []
 
     for (investor_id1, investor_id2) in [(f"Investor {i}", f"Investor {j}") for i in range(1, 11) for j in range(1, 11) if i != j]:
+        print(investor_id1, investor_id2)
         investor_attrs1 = G.nodes[investor_id1]
         investor_attrs2 = G.nodes[investor_id2]
         features = extract_features_iim(investor_attrs1, investor_attrs2)
         label = label_edge_iim(G, investor_id1, investor_id2)
+        print(label)
         X.append(features)
         y.append(label)
 
@@ -392,7 +394,7 @@ def graph_train_iim(G):
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
     
-def extract_features_investor(investor_attrs1, investor_attrs2):
+def extract_features_iim(investor_attrs1, investor_attrs2):
     """
     Extract features for a pair of investors.
     """
@@ -467,7 +469,30 @@ def model_train_ipm():
     # Evaluate model
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
+
+def model_train_ppm():
+    """
+    This function uses the pre-generated dataset to train the logistic regression model.
+    """
+    X = np.load("./server/ml/data/X_ppm.npy")
+    y = np.load("./server/ml/data/y_ppm.npy")
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train logistic regression model
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+    
+    with open('model_ppm.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+    # Predict on test set
+    y_pred = model.predict(X_test)
+
+    # Evaluate model
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
     
 if __name__ == "__main__":
-    graph_train_iim(graph_load())
+    model_train_ppm()
     pass
