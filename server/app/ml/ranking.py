@@ -6,7 +6,7 @@ import numpy as np
 import sklearn
 import pickle
 
-from graph_functions import graph_load,extract_features_iim,extract_features_ipm,extract_features_ppm
+from ml.graph_functions import graph_load,extract_features_iim,extract_features_ipm,extract_features_ppm
 
 def rank_projects_for_investors(investor_attrs, G, model):
     """
@@ -146,8 +146,8 @@ if __name__ == "__main__":
     #     model = pickle.load(f)
     #     print(rank_projects_for_investors(sample_investor_attrs, graph_load(), model))
     
-    with open('./server/ml/data/model_iim.pkl', 'rb') as f:
-        model = pickle.load(f)
-        print(rank_investors_for_investors(sample_investor_attrs, graph_load(), model))
+    # with open('./server/ml/data/model_iim.pkl', 'rb') as f:
+    #     model = pickle.load(f)
+    #     print(rank_investors_for_investors(sample_investor_attrs, graph_load(), model))
     
     pass

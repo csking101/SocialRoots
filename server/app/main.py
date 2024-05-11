@@ -3,6 +3,16 @@ import requests
 
 from helpers.json_to_csv import json_to_csv
 
+import pandas as pd
+import numpy as np
+import sklearn
+import pickle
+
+
+from ml.ranking import rank_projects_for_projects, rank_projects_for_investors, rank_investors_for_investors
+
+from ml.graph_functions import graph_load, extract_features_iim, extract_features_ipm, extract_features_ppm
+
 app = FastAPI()
 
 @app.get("/")
@@ -13,6 +23,7 @@ async def root():
 @app.get("/getProjects")
 async def getProjects():
     response = requests.get("http://localhost:3000/api/getProjects")
+    print(response.json())
     json_to_csv(response.json(), "projects")
     return response.json()
 
@@ -23,7 +34,34 @@ async def getProjects():
     json_to_csv(response.json(), "investors")
     return response.json()
 
+@app.get("/pfp")
+async def pfp():    
+    response = requests.get("http://localhost:3000/api/getProjects")
+
+    project_attrs = response.json()["projects"][0]
+
+    with open('./ml/data/model_ppm.pkl', 'rb') as f:
+        model = pickle.load(f)
+        print(rank_projects_for_projects(project_attrs, graph_load(), model))
+    
+
+@app.get("/pfi")
+async def pfi():
+    response = requests.get("http://localhost:3000/api/getInvestors")
+
+    investors_attrs = response.json()["investors"][0]
+
+    with open('./ml/data/model_ipm.pkl', 'rb') as f:
+        model = pickle.load(f)
+        print(rank_projects_for_projects(investors_attrs, graph_load(), model))
 
 
+@app.get("/ifi")
+async def pfi():
+    response = requests.get("http://localhost:3000/api/getInvestors")
 
+    investors_attrs = response.json()["investors"][0]
 
+    with open('./ml/data/model_iim.pkl', 'rb') as f:
+        model = pickle.load(f)
+        print(rank_projects_for_projects(investors_attrs, graph_load(), model))

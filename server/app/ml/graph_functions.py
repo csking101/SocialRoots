@@ -15,7 +15,7 @@ The mapping for similarity is as follows(Investor to Project):
 7) Background/Experience -> Resources Required (LLM for applicability)
 """
 
-from prompting import area_of_expertise_match_prompt, risk_appetite_match_prompt, background_match_prompt
+from ml.prompting import area_of_expertise_match_prompt, risk_appetite_match_prompt, background_match_prompt
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -123,13 +123,13 @@ def label_edge_ipm(G, investor_id, project_id):
 
 def graph_load(view=False):
     # Read investor and project data from CSV files
-    investor_df = pd.read_csv("server/ml/data/investor_data.csv")
-    project_df = pd.read_csv("server/ml/data/project_data.csv")
+    investor_df = pd.read_csv("./ml/data/investor_data.csv")
+    project_df = pd.read_csv("./ml/data/project_data.csv")
 
     # Read mappings
-    investor_investor_mapping = pd.read_csv("server/ml/data/investor_investor_mapping.csv")
-    investor_project_mapping = pd.read_csv("server/ml/data/investor_project_mapping.csv")
-    project_project_mapping = pd.read_csv("server/ml/data/project_project_mapping.csv")
+    investor_investor_mapping = pd.read_csv("./ml/data/investor_investor_mapping.csv")
+    investor_project_mapping = pd.read_csv("./ml/data/investor_project_mapping.csv")
+    project_project_mapping = pd.read_csv("./ml/data/project_project_mapping.csv")
 
         
     # Create a graph
@@ -451,8 +451,8 @@ def model_train_ipm():
     """
     This function uses the pre-generated dataset to train the logistic regression model.
     """
-    X = np.load("./server/ml/data/X_ipm.npy")
-    y = np.load("./server/ml/data/y_ipm.npy")
+    X = np.load("././ml/data/X_ipm.npy")
+    y = np.load("././ml/data/y_ipm.npy")
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -474,8 +474,8 @@ def model_train_ppm():
     """
     This function uses the pre-generated dataset to train the logistic regression model.
     """
-    X = np.load("./server/ml/data/X_ppm.npy")
-    y = np.load("./server/ml/data/y_ppm.npy")
+    X = np.load("././ml/data/X_ppm.npy")
+    y = np.load("././ml/data/y_ppm.npy")
     # Split data into training and testing sets
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
