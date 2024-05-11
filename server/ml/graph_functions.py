@@ -69,15 +69,51 @@ def extract_features(investor_attrs, project_attrs):
     investor_region = investor_attrs['region']
     project_region = project_attrs['region']
     
-    features = []
-    features.append(investment_scale_match(investment_scale, current_status))
-    features.append(area_of_interest_match(area_of_interest, project_area_of_interest))
-    features.append(area_of_expertise_match(area_of_expertise, resources_required))
-    features.append(risk_appetite_match(risk_appetite, resources_required))
-    features.append(delivery_time_match(delivery_time, project_delivery_time))
-    features.append(region_match(investor_region, project_region))
-    features.append(background_match(background, resources_required))
-    
+    features = []   
+    # Attempt to append each feature, handling potential errors
+    try:
+        features.append(investment_scale_match(investment_scale, current_status))
+    except Exception as e:
+        print(f"Error in investment_scale_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(area_of_interest_match(area_of_interest, project_area_of_interest))
+    except Exception as e:
+        print(f"Error in area_of_interest_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(area_of_expertise_match(area_of_expertise, resources_required))
+    except Exception as e:
+        print(f"Error in area_of_expertise_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(risk_appetite_match(risk_appetite, resources_required))
+    except Exception as e:
+        print(f"Error in risk_appetite_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(delivery_time_match(delivery_time, project_delivery_time))
+    except Exception as e:
+        print(f"Error in delivery_time_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(region_match(investor_region, project_region))
+    except Exception as e:
+        print(f"Error in region_match: {e}")
+        features.append(0)
+
+    try:
+        features.append(background_match(background, resources_required))
+    except Exception as e:
+        print(f"Error in background_match: {e}")
+        features.append(0)
+
+
     return features
 
 # Function to label edges
@@ -154,7 +190,7 @@ def graph_train(G):
 
     # for investor_id, project_id in G.edges():
     # for investor_id, project_id in [(investor_id, project_id) for investor_id, project_id in G.edges() if G.nodes[investor_id]['type'] == 'investor' and G.nodes[project_id]['type'] == 'project']:
-    for (investor_id, project_id) in [(f"Investor {i}",f"Project {p}") for i in range(1,21) for p in range(1,11)]:
+    for (investor_id, project_id) in [(f"Investor {i}",f"Project {p}") for i in range(1,11) for p in range(1,21)]:
         print(investor_id, project_id)
         investor_attrs = G.nodes[investor_id]
         project_attrs = G.nodes[project_id]
@@ -164,12 +200,20 @@ def graph_train(G):
         X.append(features)
         y.append(label)
 
+        with open("X.npy","wb") as f:
+            X_arr = np.array(X)
+            np.save(f,X_arr)
+
+        with open("y.npy","wb") as f:
+            y_arr = np.array(y)
+            np.save(f,y_arr)
+
     X = np.array(X)
     y = np.array(y)
     
-    with open("X.npy","w") as f:
+    with open("X.npy","wb") as f:
         np.save(f,X)
-    with open("y.npy","w") as f:
+    with open("y.npy","wb") as f:
         np.save(f,y)
 
     # Split data into training and testing sets
