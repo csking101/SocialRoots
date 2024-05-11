@@ -125,29 +125,40 @@ def sample_project_data_generation():
     project_attributes = {
         'current_status': list(range(10000, 1000001, 10000)),  # Money in rupees
         'resources_required': {
-            "Advanced technology and innovation": "This project aims to develop innovative technological solutions to address pressing challenges in the area of interest.",
-            "Business development and scaling strategies": "The project focuses on implementing strategic business development and scaling strategies to foster growth and sustainability.",
-            "Financial management and fundraising support": "This project provides support in financial management and fundraising activities to ensure effective resource allocation and sustainability.",
-            "Legal and regulatory compliance guidance": "The project offers guidance and assistance in navigating legal and regulatory requirements relevant to the area of interest.",
-            "Strategic marketing and branding initiatives": "The project involves strategic marketing and branding initiatives to raise awareness and promote the goals of the initiative.",
-            "Human resources and talent management solutions": "This project offers solutions and expertise in human resources and talent management to build and sustain an effective workforce.",
-            "Product development and design expertise": "The project leverages product development and design expertise to create innovative solutions tailored to the needs of the area of interest.",
-            "Market research and analysis services": "This project provides market research and analysis services to gain insights into market trends and consumer behavior.",
-            "Efficient supply chain and logistics solutions": "The project focuses on implementing efficient supply chain and logistics solutions to ensure timely delivery and distribution of resources.",
-            "Customer service and support solutions": "This project offers customer service and support solutions to enhance stakeholder engagement and satisfaction.",
-            "Data analytics and business intelligence services": "The project utilizes data analytics and business intelligence services to derive actionable insights and inform decision-making."
+            "Advanced technology and innovation": {
+                'Asia': "This project aims to deploy IoT-based smart agriculture solutions to optimize water usage and increase crop yields in drought-prone regions of Asia.",
+                'Africa': "The project focuses on implementing off-grid solar power solutions to provide electricity access to remote villages in sub-Saharan Africa.",
+                'Europe': "This project aims to develop AI-powered waste management systems to reduce landfill waste and promote recycling in urban areas of Europe.",
+                'North America': "The project focuses on building electric vehicle charging infrastructure to support the transition to sustainable transportation in major cities across North America.",
+                'South America': "This project aims to implement blockchain technology to create transparent supply chains for fair-trade coffee production in South American coffee-growing regions.",
+                'Australia': "The project focuses on deploying marine energy harvesting systems to generate clean electricity from ocean waves along the coastline of Australia.",
+                'Antarctica': "This project aims to develop autonomous drones for monitoring and studying the impact of climate change on Antarctic ice shelves."
+            },
+            "Business development and scaling strategies": {
+                'Asia': "The project focuses on providing microfinance loans and business training to women entrepreneurs in rural areas of Asia to empower economic growth and gender equality.",
+                'Africa': "This project aims to establish community-based cooperatives to support smallholder farmers in accessing markets, agricultural inputs, and financial services in Africa.",
+                'Europe': "The project focuses on connecting startups with experienced mentors, investors, and corporate partners to accelerate their growth and innovation in Europe's tech ecosystem.",
+                'North America': "This project aims to provide technical assistance and funding opportunities to minority-owned businesses to overcome barriers and achieve sustainable growth in North American markets.",
+                'South America': "The project focuses on fostering entrepreneurship and innovation through incubator programs and startup competitions to address social and environmental challenges in South America.",
+                'Australia': "This project aims to develop export market strategies and trade partnerships to help Australian SMEs expand their business internationally and access new markets.",
+                'Antarctica': "The project focuses on promoting sustainable tourism practices and eco-friendly initiatives to protect the unique biodiversity and fragile ecosystems of Antarctica."
+            },
+            # Add descriptions for other resource types and regions as needed
         }
     }
 
-    # Generate dummy data for 10 projects
+    # Generate dummy data for 20 projects
     project_data = []
-    for _ in range(10):
+    for _ in range(20):
         resources_required = np.random.choice(list(project_attributes['resources_required'].keys()))
+        region = np.random.choice(common_attributes['region'])
+        project_description = project_attributes['resources_required'][resources_required][region]
         data = {
             'current_status': np.random.choice(project_attributes['current_status']),
             'resources_required': resources_required,
-            'project_description': project_attributes['resources_required'][resources_required],
-            **{k: np.random.choice(v) for k, v in common_attributes.items()}
+            'project_description': project_description,
+            **{k: np.random.choice(v) for k, v in common_attributes.items()},
+            'region': region  # Ensure the region is consistent with the project description
         }
         project_data.append(data)
 
@@ -155,12 +166,49 @@ def sample_project_data_generation():
     project_df = pd.DataFrame(project_data)
 
     # Save the DataFrame to a CSV file
-    project_df.to_csv('dummy_project_data.csv', index=False)
+    project_df.to_csv('dummy_project_data_20.csv', index=False)
 
-    print("Dummy project data saved to 'dummy_project_data.csv'")
+
+def sample_mapping_data_generation():
+    # Load investor and project data
+    investor_df = pd.read_csv('dummy_investor_data.csv')
+    project_df = pd.read_csv('dummy_project_data.csv')
+
+    # Initialize mapping dictionary
+    project_investor_mapping = {}
+
+    # Iterate over projects
+    for index, project in project_df.iterrows():
+        project_area_of_interest = project['area_of_interest']
+        project_delivery_time = project['delivery_time']
+        project_region = project['region']
+        
+        # Filter potential investors based on area of expertise
+        potential_investors = investor_df[investor_df['area_of_expertise'] == project_area_of_interest]
+        
+        # Filter potential investors based on delivery time and region compatibility
+        potential_investors = potential_investors[
+            (potential_investors['delivery_time'] >= project_delivery_time) &
+            (potential_investors['region'] == project_region)
+        ]
+        
+        if len(potential_investors) > 0:
+            # Assign the project to the investor(s) based on some prioritization criteria
+            # For simplicity, let's assign the project to the investor with the highest investment scale
+            assigned_investor = potential_investors.loc[potential_investors['investment_scale'].idxmax()]
+            project_investor_mapping[index] = assigned_investor['investment_scale']
+
+    # Convert project-investor mapping to DataFrame
+    project_investor_df = pd.DataFrame(list(project_investor_mapping.items()), columns=['project_id', 'investor_investment_scale'])
+
+    # Save mapping to CSV file
+    project_investor_df.to_csv('project_investor_mapping.csv', index=False)
+
+    print("Project-investor mapping saved to 'project_investor_mapping.csv'")
 
 
 if __name__ == '__main__':
     sample_investor_data_generation()
     sample_project_data_generation()
+    sample_mapping_data_generation()
     pass
