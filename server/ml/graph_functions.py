@@ -19,6 +19,7 @@ from prompting import area_of_expertise_match_prompt, risk_appetite_match_prompt
 import pandas as pd
 import networkx as nx
 import matplotlib.pyplot as plt
+import pickle
 import math
 import numpy as np
 from sklearn.linear_model import LogisticRegression
@@ -181,7 +182,7 @@ def graph_load(view=False):
 
 def graph_train(G):
     """
-    This function trains the graph using the data.
+    This function trains the graph using the data. It generates the dataset and trains the model.
     """
     
     # Train logistic regression model
@@ -230,5 +231,28 @@ def graph_train(G):
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
     
+def model_train():
+    """
+    This function uses the pre-generated dataset to train the logistic regression model.
+    """
+    X = np.load("./server/ml/data/X_ipm.npy")
+    y = np.load("./server/ml/data/y_ipm.npy")
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train logistic regression model
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+    
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+    # Predict on test set
+    y_pred = model.predict(X_test)
+
+    # Evaluate model
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
+    
 if __name__ == "__main__":
-    graph_train(graph_load())
+    model_train()
