@@ -249,13 +249,49 @@ def extract_features_ppm(project_attrs1, project_attrs2):
     
     # Calculate match factors
     match_factors = []
-    match_factors.append(investment_scale_match(current_status1, current_status2))
-    match_factors.append(area_of_interest_match(area_of_interest1, area_of_interest2))
-    match_factors.append(area_of_expertise_match(area_of_interest1, resources_required2))  # Adjust as needed
-    match_factors.append(risk_appetite_match(resources_required1, resources_required2))  # Adjust as needed
-    match_factors.append(delivery_time_match(delivery_time1, delivery_time2))
-    match_factors.append(region_match(region1, region2))
-    match_factors.append(background_match(resources_required2, resources_required2))  # Adjust as needed
+    # Try to match factors and handle any errors that occur
+    try:
+        match_factors.append(investment_scale_match(current_status1, current_status2))
+    except Exception as e:
+        print(f"Error in investment_scale_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(area_of_interest_match(area_of_interest1, area_of_interest2))
+    except Exception as e:
+        print(f"Error in area_of_interest_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(area_of_expertise_match(area_of_interest1, resources_required2))
+    except Exception as e:
+        print(f"Error in area_of_expertise_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(risk_appetite_match(resources_required1, resources_required2))
+    except Exception as e:
+        print(f"Error in risk_appetite_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(delivery_time_match(delivery_time1, delivery_time2))
+    except Exception as e:
+        print(f"Error in delivery_time_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(region_match(region1, region2))
+    except Exception as e:
+        print(f"Error in region_match: {e}")
+        match_factors.append(0)
+
+    try:
+        match_factors.append(background_match(resources_required2, resources_required2))  # Adjust if needed
+    except Exception as e:
+        print(f"Error in background_match: {e}")
+        match_factors.append(0)
+
     
     return match_factors
 
@@ -276,10 +312,12 @@ def graph_train_ppm(G):
     y = []
 
     for (project_id1, project_id2) in [(f"Project {i}", f"Project {j}") for i in range(1, 21) for j in range(1, 21) if i != j]:
+        print(project_id1,project_id2)
         project_attrs1 = G.nodes[project_id1]
         project_attrs2 = G.nodes[project_id2]
         features = extract_features_ppm(project_attrs1, project_attrs2)  # Implement this function
         label = label_edge_ppm(G, project_id1, project_id2)  # Implement this function
+        print(label)
         X.append(features)
         y.append(label)
 
@@ -329,5 +367,5 @@ def model_train_ipm():
     print("Accuracy:", accuracy)
     
 if __name__ == "__main__":
-    # model_train_ipm()
+    graph_train_ppm(graph_load())
     pass
