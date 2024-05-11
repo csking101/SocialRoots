@@ -342,6 +342,108 @@ def graph_train_ppm(G):
     # Evaluate model
     accuracy = accuracy_score(y_test, y_pred)
     print("Accuracy:", accuracy)
+
+def label_edge_iim(G, investor_id1, investor_id2):
+    """
+    Label the edge between two investors.
+    """
+    return 1 if G.has_edge(investor_id1, investor_id2) else 0
+
+
+
+def graph_train_iim(G):
+    """
+    Train the graph using the data to predict investor-investor node relationships.
+    """
+    # Train logistic regression model
+    X = []
+    y = []
+
+    for (investor_id1, investor_id2) in [(f"Investor {i}", f"Investor {j}") for i in range(1, 11) for j in range(1, 11) if i != j]:
+        investor_attrs1 = G.nodes[investor_id1]
+        investor_attrs2 = G.nodes[investor_id2]
+        features = extract_features_iim(investor_attrs1, investor_attrs2)
+        label = label_edge_iim(G, investor_id1, investor_id2)
+        X.append(features)
+        y.append(label)
+
+    X = np.array(X)
+    y = np.array(y)
+
+    with open("X_iim.npy", "wb") as f:
+        np.save(f, X)
+    with open("y_iim.npy", "wb") as f:
+        np.save(f, y)
+
+    # Split data into training and testing sets
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+    # Train logistic regression model
+    model = LogisticRegression()
+    model.fit(X_train, y_train)
+
+    # Predict on test set
+    y_pred = model.predict(X_test)
+
+    with open('model_iim.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+    # Evaluate model
+    accuracy = accuracy_score(y_test, y_pred)
+    print("Accuracy:", accuracy)
+    
+def extract_features_investor(investor_attrs1, investor_attrs2):
+    """
+    Extract features for a pair of investors.
+    """
+    # Extract relevant attributes
+    investment_scale1 = investor_attrs1['investment_scale']
+    investment_scale2 = investor_attrs2['investment_scale']
+    area_of_interest1 = investor_attrs1['area_of_interest']
+    area_of_interest2 = investor_attrs2['area_of_interest']
+    area_of_expertise1 = investor_attrs1['area_of_expertise']
+    area_of_expertise2 = investor_attrs2['area_of_expertise']
+    risk_appetite1 = investor_attrs1['risk_appetite']
+    risk_appetite2 = investor_attrs2['risk_appetite']
+    delivery_time1 = investor_attrs1['delivery_time']
+    delivery_time2 = investor_attrs2['delivery_time']
+    region1 = investor_attrs1['region']
+    region2 = investor_attrs2['region']
+    background1 = investor_attrs1['background']
+    background2 = investor_attrs2['background']
+    
+    # Calculate match factors
+    match_factors = []
+    try:
+        match_factors.append(investment_scale_match(investment_scale1, investment_scale2))
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(area_of_interest_match(area_of_interest1, area_of_interest2))
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(area_of_expertise_match(area_of_expertise1, background2))  # Adjust as needed
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(risk_appetite_match(risk_appetite1, background2))  # Adjust as needed
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(delivery_time_match(delivery_time1, delivery_time2))
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(region_match(region1, region2))
+    except:
+        match_factors.append(0)
+    try:
+        match_factors.append(background_match(background1, background2))  # Adjust as needed
+    except:
+        match_factors.append(0)
+    
+    return match_factors
     
 def model_train_ipm():
     """
@@ -367,5 +469,5 @@ def model_train_ipm():
     print("Accuracy:", accuracy)
     
 if __name__ == "__main__":
-    graph_train_ppm(graph_load())
+    graph_train_iim(graph_load())
     pass
