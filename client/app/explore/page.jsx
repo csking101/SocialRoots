@@ -1,6 +1,6 @@
 import Explore from "@/components/projectInfoCard"
 
-export default function Explore() {
+export default function ExplorePage() {
     return (
         <Explore />
     )
