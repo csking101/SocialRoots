@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="./logo.png" alt="SocialRoots Logo" />
+<img src="./logo.jpeg" alt="SocialRoots Logo" />
 <hr>
 
 <p align="center">
