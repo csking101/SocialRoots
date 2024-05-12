@@ -4,7 +4,7 @@ import { UploadButton } from "@/utils/uploadthing";
  
 export default function ImageUpload() {
   return (
-    <main className="rounded-lg border-2 p-2 border-white">
+    <main className="rounded-xl p-2 border-white bg-red-500">
       <UploadButton
         endpoint="mediaPost"
         onClientUploadComplete={(res) => {

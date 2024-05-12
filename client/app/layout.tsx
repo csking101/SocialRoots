@@ -7,6 +7,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query'
+import Navbar from "../components/Navbar";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -23,6 +24,7 @@ export default function RootLayout({
     <html lang="en" className={GeistSans.className}>
       <body className="">
         <QueryClientProvider client={queryClient}>
+          <Navbar />
           {children}
         </QueryClientProvider>
       </body>

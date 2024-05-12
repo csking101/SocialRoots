@@ -96,7 +96,7 @@ export default function Project({
     return (
         <div className="mt-20 pb-10 min-h-screen flex">
             <div className="w-full">
-                {projects?.projects ? (
+                {(projects?.projects && projects?.projects.length != 0) ? (
                     <div >
                         <section className="w-full bg-[#9ab09d] mb-10">
                             <div className=" flex flex-col text-white py-3 mx-auto w-4/5 md:max-w-full lg:max-w-screen-md 2xl:max-w-screen-lg">
