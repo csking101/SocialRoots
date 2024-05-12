@@ -17,13 +17,13 @@ const Feature = () => {
           <div className="list-none gap-4 grid grid-cols-1 lg:gap-24 lg:grid-cols-2 mt-6">
             <div>
               <span className="text-xs bg-clip-text bg-gradient-to-r font-medium from-[#b278ef] text-transparent to-green-500 tracking-widest uppercase via-esmerald-600">
-                We prioritize farmers
+              Address global challenges
               </span>
               <h2 className="font-normal text-black mt-8 text-3xl">
-                Predict crop yield using Machine Learning
+                Importance of sustainable investments
               </h2>
               <p className="max-w-2xl mt-4 text-slate-400 text-lg">
-                Harveeco uses Machine Learning to predict crop yield and help farmers make better decisions.
+              SocialRoots aims to develop a platform for sustainability projects and investors
               </p>
               <div className="mt-12 gap-3">
                 <ul className="list-none" role="list">
@@ -45,9 +45,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                          Exhaustive Data Analysis
+                        Address global challenges
                         </strong>{" "}
-                        — Harveeco uses historical data to predict crop yield
+                        - Climate Change & Environmental Degradation
                       </p>
                     </div>
                   </li>
@@ -69,9 +69,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                          Correctness & Validness with zkML{" "}
+                            United Nation SDG
                         </strong>
-                        — Harveeco makes sure that the predictions are not manipulated by any third party.
+                        - Global Agenda & Meaningful progress
                       </p>
                     </div>
                   </li>
@@ -93,9 +93,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                        Optimized Resource Management
+                        Long-term value
                         </strong>{" "}
-                        — Harveeco can predict future area needs based on historical data and current market conditions.
+                        - Mitigating risks associated with ESG factors
                       </p>
                     </div>
                   </li>
@@ -112,31 +112,31 @@ const Feature = () => {
               </Link> */}
               
             </div>
-            <div className="h-full lg:mt-0 lg:order-none mt-12 order-1">
+            <div className="h-full lg:mt-0 lg:order-none mt-12 order-1 flex flex-row items-center ">
               <div
-                className="w-full border-white/10 lg:border lg:p-10 lg:rounded-3xl"
-                x-data=""
-                x-tabs=""
+                className=" border- lg:border lg:p-5 lg:rounded-3xl "
               >
-                <img src="/1.jpg" />
+                <img src="/1.jpeg" alt="" />
               </div>
             </div>
           </div>
           <div className="list-none gap-4 grid grid-cols-1 lg:gap-24 lg:grid-cols-2 mt-6">
-            <div className="h-full lg:mt-0 lg:order-none mt-12 order-1">
-              <div className="w-full border-white/10 lg:border lg:p-10 lg:rounded-3xl">
-                <img src="/2.jpg" />
+          <div className="h-full lg:mt-0 lg:order-none mt-12 order-1 flex flex-row items-center ">
+              <div
+                className=" border- lg:border lg:p-5 lg:rounded-3xl "
+              >
+                <img src="/2.jpeg" alt="" />
               </div>
             </div>
             <div>
               <span className="text-xs bg-clip-text bg-gradient-to-r font-medium from-[#b278ef] text-transparent to-green-500 tracking-widest uppercase via-emerald-600">
-                Onboard in seconds
+              Matchmaking platform
               </span>
               <h2 className="font-normal text-black mt-8 text-3xl">
-                Smart Onboardings using Web3 Auth
+                Smart Graph Infused Matching
               </h2>
               <p className="max-w-2xl mt-4 text-slate-400 text-lg">
-              Harveeco streamlines the onboarding process for farmers, ensuring a smooth and hassle-free experience.
+              We use graph algorithms & machine learning to analyze project and investor attributes.
               </p>
               <div className="mt-12 gap-3">
                 <ul className="list-none" role="list">
@@ -158,9 +158,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                        Farmers
+                        User-friendly interface
                         </strong>{" "}
-                        — Join Harveeco seamlessly with Aadhar Anon SDK for secure, privacy-preserving identity verification
+                        — We offer a user-friendly interface for investors to discover, evaluate, and invest in projects aligning with their values and investment criteria.
                       </p>
                     </div>
                   </li>
@@ -182,9 +182,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                        Web3 Users
+                        Project Showcase
                         </strong>
-                        — Connect instantly using your existing digital wallet via Privy.
+                        — Enables project owners to showcase initiatives, attract funding, and forge partnerships with like-minded investors.
                       </p>
                     </div>
                   </li>
@@ -206,13 +206,16 @@ const Feature = () => {
           <div className="list-none gap-4 grid grid-cols-1 lg:gap-24 lg:grid-cols-2 mt-6">
             <div>
               <span className="text-xs bg-clip-text bg-gradient-to-r font-medium from-[#b278ef] text-transparent to-green-500 tracking-widest uppercase via-emerald-600">
-                Farmers Rewarded, Companies Empowered
+                Bring all stakeholders together
               </span>
               <h2 className="font-normal text-black mt-8 text-3xl">
-              A Symbiotic Relationship in Agriculture
+              All stakeholders on one platform
               </h2>
               <p className="max-w-2xl mt-4 text-slate-400 text-lg">
-              A symbiotic relationship between farmers and companies, fostered by Harveeco's innovative platform
+
+
+              
+                
               </p>
               <div className="mt-12 gap-3">
                 <ul className="list-none" role="list">
@@ -234,9 +237,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                          Incentives for Farmers
+                          Connect Investors and Project Owners
                         </strong>{" "}
-                        — We provide farmers with rewards based on their efforts and accurate crop predictions.
+                        - We connects investors and project owners, enabling them to collaborate and create successful projects.
                       </p>
                     </div>
                   </li>
@@ -258,9 +261,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                          Data-Driven Marketplace
+                          Ecosystem for Project Owners and Investors
                         </strong>
-                        — Big companies leverage our platform to access real-time crop prediction data, enabling informed business decisions.
+                        - We empowers project owners and investors to collaborate and create successful sustainable projects
                       </p>
                     </div>
                   </li>
@@ -282,9 +285,9 @@ const Feature = () => {
                       </svg>
                       <p className="text-sm text-slate-400 leading-6 ml-2">
                         <strong className="font-semibold text-slate-800">
-                          Mutually Beneficial Ecosystem
+                          Collaboration is what we focus on
                         </strong>{" "}
-                        — This unique system connects farmers and companies, fostering collaboration and shared success in the agricultural sector
+                        - We promote sustainable projects by connecting investors and project owners.
                       </p>
                     </div>
                   </li>
@@ -301,11 +304,11 @@ const Feature = () => {
               </Link> */}
 
             </div>
-            <div className="h-full lg:mt-0 lg:order-none mt-12 order-1">
+            <div className="h-full lg:mt-0 lg:order-none mt-12 order-1 flex flex-row items-center ">
               <div
-                className="w-full border-white/10 lg:border lg:p-10 lg:rounded-3xl"
+                className=" border- lg:border lg:p-5 lg:rounded-3xl "
               >
-                <img src="/3.jpg" alt="" />
+                <img src="/3.jpeg" alt="" />
               </div>
             </div>
           </div>
