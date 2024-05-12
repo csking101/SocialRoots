@@ -41,13 +41,13 @@ export default async function Navbar() {
         <SheetContent side="right">
           <div className="grid gap-4 p-4">
             <Link
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              className="text-sm font-medium text-gray-600 hover:text-gray-500"
               href="/explore"
             >
               Explore
             </Link>
             <Link
-              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              className="text-sm font-medium text-gray-600 hover:text-gray-500"
               href="/project/create"
             >
               Create Project

@@ -77,8 +77,8 @@ export default function Explore() {
     const { data: user, isLoadingUser, isErrorUser } = useQuery('user', fetchUsers);
 
 
-    const myUser = user?.user[23];
-    // const myUser = user?.user[5];
+    // const myUser = user?.user[23];
+    const myUser = user?.user[5];
 
     const fetchProjects = async () => {
         const response = await fetch('/api/getProjects');

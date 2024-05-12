@@ -20,7 +20,8 @@ export async function GET() {
         region,
         area_of_interest,
         RegionMapping ( region ),
-        AreaOfInterestMapping ( area_of_interest )
+        AreaOfInterestMapping ( area_of_interest ),
+        Project_Image
       `)
             
 
