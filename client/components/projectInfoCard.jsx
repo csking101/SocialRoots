@@ -76,43 +76,9 @@ export default function Explore() {
 
     const { data: user, isLoadingUser, isErrorUser } = useQuery('user', fetchUsers);
 
-    const myUser = user?.user[5];
 
-    const fetchRecommendedProjectsforOwner = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/pfp');
-
-        console.log("project sorted ids: ", response)
-
-        return response.data;
-    };
-
-    const { data: projectsID, isLoading, isError, refetch } = useQuery(['projectsID', myUser?.id], fetchRecommendedProjectsforOwner, { enabled: false });
-
-    const fetchRecommendedProjectsforInvestors = async () => {
-        const response = await axios.get('http://127.0.0.1:8000/pfi');
-        return response.data;
-    };
-
-    const { data: projectsforInvestors, refetch:getRecommendedProject } = useQuery(['projectsforInvestors', myUser?.id,"for investors"], fetchRecommendedProjectsforInvestors, { enabled: false });
-
-    console.log(projectsID)
-
-    if (myUser?.role == "OWNER") {
-
-        console.log("Owner")
-        if (!projectsID) {
-            refetch()
-        }
-
-    }
-
-    else if (myUser?.role == "INVESTOR") {
-        if (!projectsforInvestors) {
-            getRecommendedProject()
-        }
-    }
-
-    // fetch projects recommended by ML algo
+    const myUser = user?.user[23];
+    // const myUser = user?.user[5];
 
     const fetchProjects = async () => {
         const response = await fetch('/api/getProjects');
@@ -127,6 +93,50 @@ export default function Explore() {
 
 
 
+    const fetchRecommendedProjectsforOwner = async () => {
+
+        const response = await axios.get(`http://127.0.0.1:8000/pfp?user_id=${myUser?.id}`);
+
+        console.log("project sorted ids: ", response)
+
+        return response.data;
+    };
+
+    const { data: projectsID, isLoading, isError, refetch } = useQuery(['projectsID', myUser?.id], fetchRecommendedProjectsforOwner, { enabled: false });
+
+    const fetchRecommendedProjectsforInvestors = async () => {
+        const response = await axios.get(`http://127.0.0.1:8000/pfi?user_id=${myUser?.id}`);
+        console.log("project sorted ids: ", response.data)
+        return response.data;
+    };
+
+    const { data: projectsforInvestors, refetch:getRecommendedProject } = useQuery(['projectsforInvestors', myUser?.id,"for investors"], fetchRecommendedProjectsforInvestors, { enabled: false });
+
+    console.log(projectsID)
+    console.log(projectsforInvestors)
+
+    let sortedProjects = []
+
+    if (myUser?.role == "OWNER") {
+        console.log("Owner")
+        if (projectsID) {
+            sortedProjects = projectsID?.projects_id.map(id => allProjects?.projects.find(project => project.ProjectID === id));
+        }
+        else {
+            refetch()
+        }
+    }
+
+    else if (myUser?.role == "INVESTOR") {
+        console.log("Investor")
+        if (projectsforInvestors) {
+            sortedProjects = projectsforInvestors?.projects_id.map(id => allProjects?.projects.find(project => project.ProjectID === id));
+        }else {
+            getRecommendedProject()
+        }
+    }
+
+
     return (
         <>
             <section className="min-h-full w-screen bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]">
@@ -134,7 +144,7 @@ export default function Explore() {
 
                     <h2 className="mt-12 mb-4 px-4 text-4xl font-bold text-hackclub-primary">Explore Projects</h2>
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mt-6'>
-                         {allProjects?.projects.map((project, index) => (
+                         {sortedProjects?.map((project, index) => (
                             <Card className="relative bg-[#C8F2BB]">
                                 <CardHeader>
                                     <img
@@ -186,4 +196,5 @@ export default function Explore() {
         </>
 
     );
+
 }
