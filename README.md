@@ -12,6 +12,10 @@
 
 [![demo]()]()
 
+Tech Stack:
+Pitch Deck link
+Stackup account username
+
 
 ## Table of Contents
 
