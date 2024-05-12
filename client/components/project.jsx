@@ -3,74 +3,11 @@
 import { useQuery } from 'react-query';
 import gfm from 'remark-gfm'
 import ReactMarkdown from "react-markdown";
+import { IoIosCall } from "react-icons/io";
 
 export default function Project({
     params,
 }) {
-
-    const Projects = [
-        {
-            id: 1,
-            title: "HackNITR",
-            description: "HackNITR is a hackathon conducted by WebClub NITR.",
-            image: "https://images.unsplash.com/photo-1664990035720-faac522df41f",
-            prize: "upto 10K USD",
-            value: "ongoing",
-            link: "https://hacknitr.tech",
-            mode: "Virtual",
-            body: "May 27 - June 21",
-            major_contributor: ""
-        },
-        {
-            id: 2,
-            title: "soonami",
-            description: "HackNITR is a hackathon conducted by WebClub NITR.",
-            image: "https://images.unsplash.com/photo-1664990035720-faac522df41f",
-            prize: "125K USD",
-            value: "ongoing",
-            link: "https://hacknitr.tech",
-            mode: "In-Person",
-            body: "May 27 - June 21",
-            major_contributor: ""
-        },
-        {
-            id: 3,
-            title: "HackFS",
-            description: "HackNITR is a hackathon conducted by WebClub NITR.",
-            image: "https://images.unsplash.com/photo-1664990035720-faac522df41f",
-            prize: "10K USD",
-            value: "ongoing",
-            link: "https://hacknitr.tech",
-            mode: "Virtual",
-            body: "May 27 - June 21",
-            major_contributor: ""
-        },
-        {
-            id: 4,
-            title: "HackFS",
-            description: "HackNITR is a hackathon conducted by WebClub NITR.",
-            image: "https://images.unsplash.com/photo-1664990035720-faac522df41f",
-            prize: "10K USD",
-            value: "past",
-            link: "https://hacknitr.tech",
-            mode: "Virtual",
-            body: "May 27 - June 21",
-            major_contributor: ""
-
-        },
-        {
-            id: 5,
-            title: "HackFS",
-            description: "HackNITR is a hackathon conducted by WebClub NITR.",
-            image: "https://images.unsplash.com/photo-1664990035720-faac522df41f",
-            prize: "10K USD",
-            value: "upcoming",
-            link: "https://hacknitr.tech",
-            mode: "Virtual",
-            body: "May 27 - June 21",
-            major_contributor: ""
-        },
-    ]
 
     const fetchProjects = async () => {
         const response = await fetch(
@@ -94,7 +31,7 @@ export default function Project({
     console.log(projects?.projects)
 
     return (
-        <div className="mt-20 pb-10 min-h-screen flex">
+        <div className="pb-10 min-h-screen flex">
             <div className="w-full">
                 {(projects?.projects && projects?.projects.length != 0) ? (
                     <div >
@@ -118,11 +55,12 @@ export default function Project({
                                     {projects?.projects[0]["Project_Description"]}
                                 </div>
                                 <div className="text-xl text-[#F4F5F5] font-medium font-sans mt-6 flex justify-between items-center">
-                                    <span>{projects?.projects[0]["Owner_Name"]}</span>
+                                    <span>Org: {projects?.projects[0]["Owner_Name"]}</span>
+                                    <span className='flex gap-2 items-center'><IoIosCall /> <a href={`tel:${projects?.projects[0]["contact"]}`}>{projects?.projects[0]["contact"]}</a></span>
                                 </div>
                             </div>
                         </section>
-                        <ReactMarkdown remarkPlugins={[gfm]} className="prose mx-auto w-4/5 md:max-w-full lg:max-w-screen-md 2xl:max-w-screen-lg text-black">{projects?.projects[0]["Project_Detail"]}</ReactMarkdown>
+                        <ReactMarkdown remarkPlugins={[gfm]} className="prose mx-auto w-4/5 md:max-w-full lg:max-w-screen-md 2xl:max-w-screen-lg text-black whitespace-pre-wrap">{projects?.projects[0]["Project_Detail"]}</ReactMarkdown>
                     </div>
                 ) : (
                     <p>Loading...</p>

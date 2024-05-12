@@ -2,31 +2,35 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 
-export default function Navbar() {
+export default async function Navbar() {
+
   return (
-    <header className="flex items-center justify-between bg-white px-4 py-3 shadow-sm dark:bg-gray-950">
+    <header className="flex items-center justify-between bg-white px-4 py-3 shadow-sm">
       <div className="flex items-center gap-4">
         <Link className="text-lg font-semibold" href="/">
           SocialRoots
         </Link>
         <nav className="hidden md:flex items-center gap-4">
           <Link
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            className="text-sm font-medium text-gray-600 hover:text-gray-900"
             href="/explore"
           >
             Explore
           </Link>
           <Link
-            className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
+            className="text-sm font-medium text-gray-600 hover:text-gray-900"
             href="/project/create"
           >
             Create Project
           </Link>
         </nav>
       </div>
-      <Button className="hidden md:inline-flex" size="sm" variant="solid">
+      <Link href="/login">
+          <Button className="hidden md:inline-flex" size="sm" variant="solid">
         Login
       </Button>
+      </Link>
+    
       <Sheet>
         <SheetTrigger asChild>
           <Button className="md:hidden" size="icon" variant="outline">
@@ -37,24 +41,24 @@ export default function Navbar() {
         <SheetContent side="right">
           <div className="grid gap-4 p-4">
             <Link
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              href="/explore"
             >
               Explore
             </Link>
             <Link
-              className="text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-50"
-              href="#"
+              className="text-sm font-medium text-gray-600 hover:text-gray-900"
+              href="/project/create"
             >
               Create Project
             </Link>
-            <Button size="sm" variant="solid">
+            <Link href="/login">
               Login
-            </Button>
+            </Link>
           </div>
         </SheetContent>
       </Sheet>
-    </header>
+    </header >
   )
 }
 
