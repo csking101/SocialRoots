@@ -5,9 +5,9 @@ import { SheetTrigger, SheetContent, Sheet } from "@/components/ui/sheet"
 export default async function Navbar() {
 
   return (
-    <header className="flex items-center justify-between bg-white px-4 py-3 shadow-sm">
+    <header className="flex items-center justify-between bg-black px-4 py-3 shadow-sm">
       <div className="flex items-center gap-4">
-        <Link className="text-lg font-semibold" href="/">
+        <Link className="text-lg font-semibold text-white" href="/">
           SocialRoots
         </Link>
         <nav className="hidden md:flex items-center gap-4">
@@ -37,7 +37,7 @@ export default async function Navbar() {
             <MenuIcon className="h-6 w-6" />
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
-        </SheetTrigger>
+        </SheetTrigger> 
         <SheetContent side="right">
           <div className="grid gap-4 p-4">
             <Link
