@@ -1,7 +1,7 @@
 import requests
 import json
 
-endpoint_url = "https://09ae-106-51-82-118.ngrok-free.app/generate"
+endpoint_url = "https://4c3e-106-51-82-118.ngrok-free.app/generate"
 
 def get_response(prompt):
     """

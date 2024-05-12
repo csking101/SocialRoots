@@ -3,6 +3,7 @@
 import { CardHeader, CardContent, Card } from "@/components/ui/card"
 import { ArrowRightIcon } from '@/components/icons/arrow';
 import { useQuery } from 'react-query';
+import axios from "axios";
 
 const Projects = [
     {
@@ -63,9 +64,55 @@ const Projects = [
     },
 ]
 
-
-
 export default function Explore() {
+
+    const fetchUsers = async () => {
+        const response = await fetch('/api/getUsers');
+        if (!response.ok) {
+            throw new Error('Failed to fetch users');
+        }
+        return response.json();
+    };
+
+    const { data: user, isLoadingUser, isErrorUser } = useQuery('user', fetchUsers);
+
+    const myUser = user?.user[5];
+
+    const fetchRecommendedProjectsforOwner = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/pfp');
+
+        console.log("project sorted ids: ", response)
+
+        return response.data;
+    };
+
+    const { data: projectsID, isLoading, isError, refetch } = useQuery(['projectsID', myUser?.id], fetchRecommendedProjectsforOwner, { enabled: false });
+
+    const fetchRecommendedProjectsforInvestors = async () => {
+        const response = await axios.get('http://127.0.0.1:8000/pfi');
+        return response.data;
+    };
+
+    const { data: projectsforInvestors, refetch:getRecommendedProject } = useQuery(['projects', myUser?.id,"for investors"], fetchRecommendedProjectsforInvestors, { enabled: false });
+
+    console.log(projectsID)
+
+    if (myUser?.role == "OWNER") {
+
+        console.log("Owner")
+        if (!projectsID) {
+            refetch()
+        }
+
+    }
+
+    else {
+        if (!projectsforInvestors) {
+            getRecommendedProject()
+        }
+    }
+
+    // fetch projects recommended by ML algo
 
     const fetchProjects = async () => {
         const response = await fetch('/api/getProjects');
@@ -75,9 +122,10 @@ export default function Explore() {
         return response.json();
     };
 
-    const { data: projects, isLoading, isError } = useQuery('projects', fetchProjects);
 
-    console.log(projects?.projects)
+    const { data: allProjects } = useQuery('allprojects', fetchProjects);
+
+
 
     return (
         <>
@@ -86,7 +134,7 @@ export default function Explore() {
 
                     <h2 className="mt-12 mb-4 px-4 text-4xl font-bold text-hackclub-primary">Explore Projects</h2>
                     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mt-6'>
-                        {projects?.projects.map((project, index) => (
+                         {allProjects?.projects.map((project, index) => (
                             <Card className="relative bg-[#C8F2BB]">
                                 <CardHeader>
                                     <img
@@ -107,17 +155,17 @@ export default function Explore() {
                                         {project.Project_Description}
                                     </p>
                                     <div className="flex flex-wrap gap-3 mt-3">
-                                        {project.Project_Category.map((category) => (
-                                            <div className="bg-[#0D3D00] text-gray-50 px-3 py-1 rounded-t-md rounded-bl-md text-xs font-medium">
-                                                {category}
-                                            </div>
-                                        ))}
+
+                                        <div className="bg-[#0D3D00] text-gray-50 px-3 py-1 rounded-t-md rounded-bl-md text-xs font-medium">
+                                            {project.AreaOfInterestMapping["area_of_interest"]}
+                                        </div>
+
                                     </div>
                                     {/* <div className="flex items-center gap-2 mt-4">
                                         <CalendarClock size={22} className="inline" /><span className="text-sm md:text-base font-medium">{hackathon.timeline}</span>
                                     </div>
                                     <div className="flex items-center gap-2 mt-4">
-                                        {/* <TrophyIcon className="w-5 h-5 text-[#F59E0B]" />
+                                         <TrophyIcon className="w-5 h-5 text-[#F59E0B]" />
                                         <span className="text-sm md:text-base font-medium">{hackathon.prize}</span>
                                     </div> */}
                                     <a
@@ -131,7 +179,7 @@ export default function Explore() {
                                     </a>
                                 </CardContent>
                             </Card>
-                        ))}
+                        ))} 
                     </div>
                 </div>
             </section>

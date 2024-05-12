@@ -5,8 +5,35 @@ import { Input } from "@/components/ui/input"
 import { SelectValue, SelectTrigger, SelectItem, SelectContent, Select } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { UploadButton } from "@/utils/uploadthing";
+import { useQuery } from 'react-query';
 
 export default function Component() {
+
+    const fetchAreaOfInterests = async () => {
+        const response = await fetch('/api/getAreaOfInterests');
+        if (!response.ok) {
+            throw new Error('Failed to fetch AOI');
+        }
+        return response.json();
+    };
+
+    const { data: area_of_interest, isLoadingAOI, isErrorAOI } = useQuery('area_of_interest', fetchAreaOfInterests);
+
+    const fetchRegions = async () => {
+        const response = await fetch('/api/getRegion');
+        if (!response.ok) {
+            throw new Error('Failed to fetch Regions');
+        }
+        return response.json();
+    };
+
+    const { data: regions, isLoadingRegions, isErrorRegions } = useQuery('regions', fetchRegions);
+
+
+    console.log(area_of_interest)
+    console.log(regions)
+
+
     return (
         <div className="mx-auto max-w-2xl my-6">
             <div className="py-2 text-center">
@@ -58,17 +85,7 @@ export default function Component() {
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="currentStatus">Current Status</Label>
-                    <Select id="currentStatus" required>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select status" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="planning">Planning</SelectItem>
-                            <SelectItem value="inProgress">In Progress</SelectItem>
-                            <SelectItem value="completed">Completed</SelectItem>
-                            <SelectItem value="onHold">On Hold</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <Input id="currentStatus" placeholder="What is the current status of the project?" required />
                 </div>
                 <div className="space-y-2">
                     <Label htmlFor="deliveryTime">Delivery Time</Label>
@@ -81,9 +98,13 @@ export default function Component() {
                             <SelectValue placeholder="Enter region" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="region1">Region 1</SelectItem>
-                            <SelectItem value="region2">Region 2</SelectItem>
-                            <SelectItem value="region3">Region 3</SelectItem>
+                            
+                            {
+                                regions?.regions.map((region, index) => (
+                                    <SelectItem key={index} value={region.region}>{region.region}</SelectItem>
+                                ))
+                            }
+
                         </SelectContent>
                     </Select>
                 </div>
@@ -94,9 +115,12 @@ export default function Component() {
                             <SelectValue placeholder="Enter area of interest" />
                         </SelectTrigger>
                         <SelectContent>
-                            <SelectItem value="option1">Option 1</SelectItem>
-                            <SelectItem value="option2">Option 2</SelectItem>
-                            <SelectItem value="option3">Option 3</SelectItem>
+
+                            {
+                                area_of_interest?.area_of_interest.map((aoi, index) => (
+                                    <SelectItem key={index} value={aoi.area_of_interest}>{aoi.area_of_interest}</SelectItem>
+                                ))
+                            }
                         </SelectContent>
                     </Select>
                 </div>

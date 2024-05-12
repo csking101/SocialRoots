@@ -7,7 +7,22 @@ export async function GET() {
 
     let { data: Investor, error } = await supabase
         .from('Investor')
-        .select('*')
+        .select(
+            `
+            InvestorID,
+            Investor_Name,
+            investment_scale,
+            risk_appetite,
+            background,
+            delivery_time,
+            region,
+            area_of_interest,
+            area_of_expertise,
+            RegionMapping ( region ),
+            AreaOfInterestMapping ( area_of_interest ),
+            AreaOfExpertiseMapping ( area_of_expertise )
+            `
+        )
             
 
     return NextResponse.json({
