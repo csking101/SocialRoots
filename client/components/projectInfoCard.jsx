@@ -93,7 +93,7 @@ export default function Explore() {
         return response.data;
     };
 
-    const { data: projectsforInvestors, refetch:getRecommendedProject } = useQuery(['projects', myUser?.id,"for investors"], fetchRecommendedProjectsforInvestors, { enabled: false });
+    const { data: projectsforInvestors, refetch:getRecommendedProject } = useQuery(['projectsforInvestors', myUser?.id,"for investors"], fetchRecommendedProjectsforInvestors, { enabled: false });
 
     console.log(projectsID)
 
@@ -106,7 +106,7 @@ export default function Explore() {
 
     }
 
-    else {
+    else if (myUser?.role == "INVESTOR") {
         if (!projectsforInvestors) {
             getRecommendedProject()
         }
