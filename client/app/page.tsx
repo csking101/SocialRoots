@@ -6,6 +6,8 @@ import SignUpUserSteps from "@/components/tutorial/SignUpUserSteps";
 import Header from "@/components/Header";
 import ImageUpload from "@/components/Upload/uploadbutton";
 import Hero from "@/components/hero"
+import Feature from "@/components/feature"
+
 
 export default async function Index() {
   const canInitSupabaseClient = () => {
@@ -24,6 +26,7 @@ export default async function Index() {
   return (
     <div className="flex-1 w-full flex flex-col items-center">
       <Hero />
+      <Feature />
       {/* <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
         <p>
           Powered by{" "}
