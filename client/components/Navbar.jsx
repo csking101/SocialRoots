@@ -12,13 +12,13 @@ export default async function Navbar() {
         </Link>
         <nav className="hidden md:flex items-center gap-4">
           <Link
-            className="text-sm font-medium text-gray-600 hover:text-gray-900"
+            className="text-sm font-medium text-gray-300 hover:text-gray-900"
             href="/explore"
           >
             Explore
           </Link>
           <Link
-            className="text-sm font-medium text-gray-600 hover:text-gray-900"
+            className="text-sm font-medium text-gray-300 hover:text-gray-900"
             href="/project/create"
           >
             Create Project
@@ -26,7 +26,7 @@ export default async function Navbar() {
         </nav>
       </div>
       <Link href="/login">
-          <Button className="hidden md:inline-flex" size="sm" variant="solid">
+          <Button className="hidden md:inline-flex text-white" size="sm" variant="solid">
         Login
       </Button>
       </Link>
