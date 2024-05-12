@@ -35,7 +35,7 @@ export default function Project({
             <div className="w-full">
                 {(projects?.projects && projects?.projects.length != 0) ? (
                     <div >
-                        <section className="w-full bg-[#9ab09d] mb-10">
+                        <section className="w-full bg-[#C8F2BB] mb-10">
                             <div className=" flex flex-col text-white py-3 mx-auto w-4/5 md:max-w-full lg:max-w-screen-md 2xl:max-w-screen-lg">
                                 {/* <div className="flex flex-wrap gap-2">
                                         {projectData?.project_tags.split(",").map((data, index) => {
@@ -45,7 +45,7 @@ export default function Project({
                                         }
                                         )}
                                     </div> */}
-                                <div className="text-3xl text-[#F4F5F5] font-bold font-sans mt-4">
+                                <div className="text-3xl text-black font-bold font-sans mt-4">
                                     {projects?.projects[0]["Project_Name"]}
                                 </div>
                                 <div className=" rounded-lg overflow-hidden w-[100%] max-h-[500px] mx-auto mt-6">
@@ -54,7 +54,7 @@ export default function Project({
                                 <div className="text-xl text-[#2A2B2E] font-thin font-sans mt-2">
                                     {projects?.projects[0]["Project_Description"]}
                                 </div>
-                                <div className="text-xl text-[#F4F5F5] font-medium font-sans mt-6 flex justify-between items-center">
+                                <div className="text-xl text-[#2A2B2E] font-medium font-sans mt-6 flex justify-between items-center">
                                     <span>Org: {projects?.projects[0]["Owner_Name"]}</span>
                                     <span className='flex gap-2 items-center'><IoIosCall /> <a href={`tel:${projects?.projects[0]["contact"]}`}>{projects?.projects[0]["contact"]}</a></span>
                                 </div>
