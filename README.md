@@ -10,11 +10,10 @@
 </p>
 </div>
 
-[![demo]()]()
 
-Tech Stack:
-Pitch Deck link
-Stackup account username
+
+
+
 
 
 ## Table of Contents
@@ -28,6 +27,7 @@ Stackup account username
 ## Overview
 
 ### Project Description
+*Tech Stack: Python, NextJS, FastAPI, Pandas, Numpy, Matplotlib, Networkx*
 
 Our project aims to revolutionize the landscape of sustainability initiatives by developing a sophisticated recommender system that connects investors with impactful projects, fostering collaboration and innovation in addressing pressing global challenges. With a user-centric approach, our platform caters to both investors seeking opportunities for meaningful investment and project owners looking to secure funding and support for their initiatives.
 
