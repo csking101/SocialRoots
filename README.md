@@ -11,9 +11,19 @@
 </div>
 
 
+## Preview
 
+![image](https://github.com/csking101/SocialRoots/assets/97223188/ad5f9abf-1d24-471d-8377-9482780ab1e3)
 
+![image](https://github.com/csking101/SocialRoots/assets/97223188/4ce391ec-0018-4314-87cc-9b38b5874295)
 
+![image](https://github.com/csking101/SocialRoots/assets/97223188/207a1307-2fe9-4f14-88ed-12419bb54339)
+
+![image](https://github.com/csking101/SocialRoots/assets/97223188/dbba961d-3d26-4ea5-a05a-1d5dae4ef210)
+
+![image](https://github.com/csking101/SocialRoots/assets/97223188/d1017075-c516-4d3b-a18d-9bde106471c7)
+
+![image](https://github.com/csking101/SocialRoots/assets/97223188/fe61cc86-4539-48b6-b159-d183a4f62c1e)
 
 
 ## Table of Contents
